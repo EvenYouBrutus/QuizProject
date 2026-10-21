@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание викторины — Креатив-зона</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-wrapper">
+        {% if step == 'form' %}
+        <form method="POST" enctype="multipart/form-data">
+            <!-- 🔶 ОРАНЖЕВЫЙ БЛОК: Шапка -->
+            <div class="block-orange">
+                <h1 class="main-title">Конструктор викторины</h1>
+                <div class="input-group">
+                    <label>Введите название викторины:</label>
+                    <input type="text" name="quiz_title" placeholder="Например: Викторина по физике" required>
+                </div>
+                <div class="input-group">
+                    <label>Количество вопросов:</label>
+                    <input type="number" id="quiz_questions_count" name="questions_count" value="1" min="1" max="20" required>
+                    <small class="hint-text">*Блоки будут добавляться снизу без сброса текста</small>
+                </div>
+            </div>
+
+            <!-- КОНТЕЙНЕР ДЛЯ ДИНАМИЧЕСКИХ ЗЕЛЕНЫХ БЛОКОВ -->
+            <div id="dynamic-questions-container">
+                <div class="block-green" id="question_block_1" data-q-index="1">
+                    <div class="block-question-header">
+                        <h3>Блок вопроса №1</h3>
+                        <div class="file-upload-zone">
+                            <label class="file-label">
+                                <span class="file-status-text">📁 Загрузить изображение</span>
+                                <input type="file" name="q_image_1" accept="image/*" onchange="this.previousElementSibling.innerText = '✅ Фото загружено!'; this.closest('.file-label').style.background = '#c6f6d5';">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Введите текст вопроса:</label>
+                        <input type="text" name="question_text_1" placeholder="Напишите ваш вопрос здесь..." required>
+                    </div>
+                    <div class="input-group">
+                        <label>Количество вариантов ответа:</label>
+                        <input type="number" name="q_1_options_count" class="options-count-input" value="4" min="2" max="6" required>
+                    </div>
+                    <div class="subblocks-container">
+                        <label>Варианты ответов и выбор правильного:</label>
+                        <div class="answers-list">
+                            <div class="subblock-answer" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                <input type="radio" name="q_1_correct" value="0" checked class="radio-correct">
+                                <input type="text" name="q_1_option_1" placeholder="Вариант ответа 1" required>
+                            </div>
+                            <div class="subblock-answer" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                <input type="radio" name="q_1_correct" value="1" class="radio-correct">
+                                <input type="text" name="q_1_option_2" placeholder="Вариант ответа 2" required>
+                            </div>
+                            <div class="subblock-answer" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                <input type="radio" name="q_1_correct" value="2" class="radio-correct">
+                                <input type="text" name="q_1_option_3" placeholder="Вариант ответа 3" required>
+                            </div>
+                            <div class="subblock-answer" style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                <input type="radio" name="q_1_correct" value="3" class="radio-correct">
+                                <input type="text" name="q_1_option_4" placeholder="Вариант ответа 4" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🔵 СИНИЙ БЛОК: Низ -->
+            <div class="block-blue">
+                <button type="submit" class="btn-submit">Создать викторину</button>
+            </div>
+        </form>
+        <script>
+            // Умное изменение ответов БЕЗ сброса уже написанного текста
+            function handleOptionsCountChange(input) {
+                const block = input.closest('.block-green');
+                const qIndex = block.getAttribute('data-q-index');
+                const listContainer = block.querySelector('.answers-list');
+                const targetCount = parseInt(input.value) || 2;
+                const currentCount = listContainer.children.length;
+
+                if (targetCount > currentCount) {
+                    for (let j = currentCount + 1; j <= targetCount; j++) {
+                        const newAnswer = document.createElement('div');
+                        newAnswer.className = 'subblock-answer';
+                        newAnswer.style.display = 'flex';
+                        newAnswer.style.alignItems = 'center';
+                        newAnswer.style.gap = '10px';
+                        newAnswer.style.marginBottom = '8px';
+                        newAnswer.innerHTML = `
+                            <input type="radio" name="q_${qIndex}_correct" value="${j-1}" class="radio-correct">
+                            <input type="text" name="q_${qIndex}_option_${j}" placeholder="Вариант ответа ${j}" required>
+                        `;
+                        listContainer.appendChild(newAnswer);
+                    }
+                } else if (targetCount < currentCount) {
+                    for (let j = currentCount; j > targetCount; j--) {
+                        listContainer.removeChild(listContainer.lastChild);
+                    }
+                }
+            }
+
+            document.querySelector('.options-count-input').addEventListener('input', function() {
+                handleOptionsCountChange(this);
+            });
+
+            // Умное изменение ВОПРОСОВ БЕЗ сброса текста и без резких прыжков экрана
+            document.getElementById('quiz_questions_count').addEventListener('input', function() {
+                const container = document.getElementById('dynamic-questions-container');
+                const targetCount = parseInt(this.value) || 1;
+                const currentCount = container.children.length;
+
+                if (targetCount > currentCount) {
+                    for (let i = currentCount + 1; i <= targetCount; i++) {
+                        const newBlock = document.createElement('div');
+                        newBlock.className = 'block-green';
+                        newBlock.id = `question_block_${i}`;
+                        newBlock.setAttribute('data-q-index', i);
+                        newBlock.innerHTML = `
+                            <div class="block-question-header">
+                                <h3>Блок вопроса №${i}</h3>
+                                <div class="file-upload-zone">
+                                    <label class="file-label">
+                                        <span class="file-status-text">📁 Загрузить изображение</span>
+                                        <input type="file" name="q_image_${i}" accept="image/*" onchange="this.previousElementSibling.innerText = '✅ Фото загружено!'; this.closest('.file-label').style.background = '#c6f6d5';">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Введите текст вопроса:</label>
+                                <input type="text" name="question_text_${i}" placeholder="Напишите ваш вопрос здесь..." required>
+                            </div>
+                            <div class="input-group">
+                                <label>Количество вариантов ответа:</label>
+                                <input type="number" name="q_${i}_options_count" class="options-count-input" value="4" min="2" max="6" required>
+                            </div>
+                            <div class="subblocks-container">
+                                <label>Варианты ответов и выбор правильного:</label>
+                                <div class="answers-list"></div>
+                            </div>
+                        `;
+                        const listContainer = newBlock.querySelector('.answers-list');
+                        for (let j = 1; j <= 4; j++) {
+                            const ansDiv = document.createElement('div');
+                            ansDiv.className = 'subblock-answer';
+                            ansDiv.style.display = 'flex';
+                            ansDiv.style.alignItems = 'center';
+                            ansDiv.style.gap = '10px';
+                            ansDiv.style.marginBottom = '8px';
+                            ansDiv.innerHTML = `
+                                <input type="radio" name="q_${i}_correct" value="${j-1}" ${j===1 ? 'checked' : ''} class="radio-correct">
+                                <input type="text" name="q_${i}_option_${j}" placeholder="Вариант ответа ${j}" required>
+                            `;
+                            listContainer.appendChild(ansDiv);
+                        }
+                        newBlock.querySelector('.options-count-input').addEventListener('input', function() {
+                            handleOptionsCountChange(this);
+                        });
+                        container.appendChild(newBlock);
+                    }
+                } else if (targetCount < currentCount) {
+                    for (let i = currentCount; i > targetCount; i--) {
+                        container.removeChild(container.lastChild);
+                    }
+                }
+            });
+        </script>
+        {% endif %}
+
+        {% if step == 'done' %}
+        <div class="block-blue success-panel">
+            <h2>🎉 Викторина успешно создана!</h2>
+            <hr><br>
+            <div class="link-output-group">
+                <label><strong>Прямая короткая ссылка для УЧЕНИКОВ:</strong></label>
+                <input type="text" class="input-link-display" value="{{ student_link }}" readonly onclick="this.select(); document.execCommand('copy'); alert('Ссылка скопирована!');">
+            </div>
+            <div class="link-output-group" style="margin-top: 25px;">
+                <label><strong>Панель управления для УЧИТЕЛЯ (без копирования):</strong></label>
+                <a href="{{ teacher_link }}" target="_blank" class="btn-teacher-panel-link" style="display: block; text-align: center; text-decoration: none; padding: 15px; background: #28a745; color: white; border-radius: 6px; font-weight: bold; margin-top: 10px;">
+                    🎯 ВОЙТИ В ПАНЕЛЬ УПРАВЛЕНИЯ ВИКТОРИНОЙ →
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

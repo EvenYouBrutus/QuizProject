@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ожидание раунда...</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        setInterval(function() {
+            fetch('/api/status/{{ quiz_id }}?t=' + Date.now())
+                .then(response => response.json())
+                .then(data => {
+                    if (data.current_question_index >= data.total_questions) {
+                        window.location.href = '/q/{{ quiz_id }}/final';
+                    }
+                    else if (data.current_question_index != {{ current_q_idx }}) {
+                        window.location.href = '/q/{{ quiz_id }}/question';
+                    }
+                });
+        }, 1000);
+    </script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="block-orange text-center-box">
+            <div class="loader-spinner">⏳</div>
+            <h2>Ответ принят / Ожидание старта</h2>
+            <p class="subtitle" style="margin-bottom: 0;">Внимание на главный экран учителя. Ждем переключения на следующий раунд...</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель Учителя — Управление игрой</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script>
+    setInterval(function() {
+        fetch('/api/status/{{ quiz_id }}?t=' + Date.now())
+            .then(response => response.json())
+            .then(data => {
+                const lobbyList = document.getElementById('lobby-players-list');
+                if (lobbyList && data.players) {
+                    if (data.players.length === 0) {
+                        lobbyList.innerHTML = '<li>Ожидание первых игроков...</li>';
+                    } else {
+                        lobbyList.innerHTML = data.players.map(p => `<li>👤 ${p}</li>`).join('');
+                    }
+                }
+                if (data.stats && data.stats.length > 0) {
+                    const badges = document.querySelectorAll('.stat-count-badge');
+                    badges.forEach((badge, index) => {
+                        if (data.stats[index] !== undefined) {
+                            badge.innerText = `Ответили: ${data.stats[index]} чел.`;
+                        }
+                    });
+                }
+            });
+    }, 1000);
+</script>
+
+</head>
+<body>
+    <div class="main-wrapper">
+        
+        <!-- HEAD: Картинка на всю ширину сверху -->
+        <div class="quiz-top-banner">
+            {% if current_q >= 0 and quiz.questions[current_q].image %}
+                <img src="{{ url_for('static', filename='uploads/' + quiz.questions[current_q].image) }}" alt="Иллюстрация раунда" class="banner-img">
+            {% else %}
+                <div class="banner-placeholder">🏞️ Зал ожидания / Изображение вопроса</div>
+            {% endif %}
+        </div>
+
+        <div class="block-orange" style="margin-top: 15px;">
+            <h1 class="quiz-title-display">{{ quiz.title }} — Пульт ведения</h1>
+            <p class="subtitle">
+                {% if current_q == -1 %}
+                    🟢 СТАТУС: ИГРОКИ СОБИРАЮТСЯ В ЛОББИ
+                {% else %}
+                    Активен: <strong>Вопрос №{{ current_q + 1 }}</strong> из {{ total_q }}
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- РЕЖИМ 1: ЭКРАН СТАРТОВОГО ЛОББИ (Если индекс -1) -->
+        {% if current_q == -1 %}
+        <div class="block-green" style="margin-top: 20px;">
+            <h2 style="margin-top: 0; color: #2b6cb0; text-align: center;">👥 Подключенные ученики в комнате:</h2>
+            <hr>
+            <ul id="lobby-players-list" class="lobby-list-style">
+                <li>Ожидание первых игроков...</li>
+            </ul>
+        </div>
+        {% else %}
+
+        <!-- РЕЖИМ 2: ЭКРАН ИГРЫ (Если раунд запущен) -->
+        <div class="block-green" style="margin-top: 20px;">
+            <h2 class="teacher-question-preview" style="margin-bottom: 25px; color: #2d3748;">
+                Вопрос на экранах класса: <em>"{{ quiz.questions[current_q].text }}"</em>
+            </h2>
+
+            <label><strong>Статистика ответов класса (обновляется сама):</strong></label>
+            <div class="teacher-stats-container" style="margin-top: 12px; display: flex; flex-direction: column; gap: 10px;">
+                {% for option in quiz.questions[current_q].options %}
+                <div class="subblock-stat-row">
+                    <span class="stat-option-text">🔹 {{ option }}</span>
+                    <span class="stat-count-badge">Ответили: 0 чел.</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- НИЗ: Кнопка переключения раундов -->
+        <div class="block-blue" style="margin-top: 20px;">
+            <form method="POST">
+                <button type="submit" class="btn-submit btn-teacher-panel-link" style="width: 100%; text-align: center;">
+                    {% if current_q == -1 %}
+                        🚀 ЗАПУСТИТЬ ВИКТОРИНУ ДЛЯ КЛАССА
+                    {% elif current_q < total_q - 1 %}
+                        ➡️ ПЕРЕЙТИ НА СЛЕДУЮЩИЙ ВОПРОС
+                    {% else %}
+                        🏆 ЗАВЕРШИТЬ ВИКТОРИНУ И ПОКАЗАТЬ РЕЗУЛЬТАТЫ
+                    {% endif %}
+                </button>
+            </form>
+        </div>
+
+    </div>
+</body>
+</html>

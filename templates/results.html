@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Итоговые результаты викторины</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="quiz-top-banner code-final-banner">
+            <div class="banner-placeholder">🏆 ИГРА ЗАВЕРШЕНА</div>
+        </div>
+
+        {% if student_view %}
+        <div class="block-orange" style="margin-top: 15px; border-top-color: #4299e1;">
+            <h2 style="margin: 0; text-align: center; color: #2b6cb0;">
+                🏁 Ваша личная финишная статистика, {{ session.get('username', 'Аноним') }}:
+            </h2>
+            <h1 style="text-align: center; margin: 10px 0 0 0; color: #2b6cb0; font-size: 36px;">
+                {{ my_score }} очков
+            </h1>
+        </div>
+        {% endif %}
+
+        <div class="block-orange" style="margin-top: 15px;">
+            <h1 class="quiz-title-display">{{ quiz.title }}</h1>
+            <p class="subtitle">Итоговый протокол результатов викторины</p>
+        </div>
+
+        <div class="block-green" style="margin-top: 20px;">
+            <h2 style="text-align: center; color: #2d3748; margin-top: 0;">📊 Общая таблица результатов класса</h2>
+            <hr><br>
+
+            <div class="leaderboard-list">
+                {% if not sorted_results %}
+                    <p style="text-align: center; color: #666;">Результаты игроков обрабатываются сервером...</p>
+                {% endif %}
+
+                <!-- Задаем технические переменные Jinja для расчета одинаковых мест -->
+                {% set ns = namespace(current_rank=1, last_score=-1, display_rank=1) %}
+
+                {% for username, score in sorted_results %}
+                    <!-- Если это не первый элемент и баллы меньше предыдущих, увеличиваем место -->
+                    {% if not loop.first and score < ns.last_score %}
+                        {% set ns.display_rank = loop.index %}
+                    {% endif %}
+                    
+                    {% set ns.last_score = score %}
+
+                <div class="leader-row {% if student_view and username == session.get('username') %}my-row-highlight{% endif %}">
+                    <span class="leader-name" style="font-size: 16px; font-weight: bold;">
+                        <!-- Присваиваем медали на основе честно рассчитанного display_rank -->
+                        {% if ns.display_rank == 1 %}
+                            🥇 1 Место: 
+                        {% elif ns.display_rank == 2 %}
+                            🥈 2 Место: 
+                        {% elif loop.index == 3 or ns.display_rank == 3 %}
+                            🥉 3 Место: 
+                        {% else %}
+                            👤 Место {{ ns.display_rank }}: 
+                        {% endif %}
+                        <span style="color: #4299e1;">{{ username }}</span>
+                    </span>
+                    <span class="leader-score">
+                        {{ score }} очков
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="block-blue" style="margin-top: 20px;">
+            <a href="/" class="btn-submit" style="display: block; text-align: center; text-decoration: none; background-color: #718096; box-sizing: border-box;">
+                🏠 ВЕРНУТЬСЯ В КОНСТРУКТОР ИГРЫ
+            </a>
+        </div>
+    </div>
+</body>
+</html>

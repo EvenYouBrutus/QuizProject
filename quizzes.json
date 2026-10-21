@@ -1,0 +1,460 @@
+{
+    "4475": {
+        "title": "Кал",
+        "question": "Кто негр?",
+        "options": [
+            "Я",
+            "Ты",
+            "Вы",
+            "Мы"
+        ],
+        "correct": 1
+    },
+    "7617": {
+        "title": "Кал",
+        "question": "Кто негр?",
+        "options": [
+            "Я",
+            "Ты",
+            "Вы",
+            "Мы"
+        ],
+        "correct": 1
+    },
+    "3536": {
+        "title": "1",
+        "question": "1",
+        "options": [
+            "1",
+            "1",
+            "1",
+            "1"
+        ],
+        "correct": 1
+    },
+    "4837": {
+        "title": "Ы",
+        "question": "Ы",
+        "options": [
+            "Я",
+            "Ты",
+            "Вы",
+            "Мы"
+        ],
+        "correct": 1
+    },
+    "7607": {
+        "title": "Ы",
+        "question": null,
+        "options": [
+            null,
+            null,
+            null,
+            null
+        ],
+        "correct": 1
+    },
+    "1930": {
+        "title": "Ы",
+        "question": null,
+        "options": [
+            null,
+            null,
+            null,
+            null
+        ],
+        "correct": 1
+    },
+    "4102": {
+        "title": "Ы",
+        "question": null,
+        "options": [
+            null,
+            null,
+            null,
+            null
+        ],
+        "correct": 1
+    },
+    "7656": {
+        "title": "Инкорректный вопрос",
+        "current_question_index": 0,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": null,
+                "options": [
+                    "Я",
+                    "Ты"
+                ],
+                "correct": 1,
+                "stats": [
+                    0,
+                    0
+                ]
+            }
+        ],
+        "results": {}
+    },
+    "8126": {
+        "title": "Инкорректный вопрос",
+        "current_question_index": 0,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": "img_223103_Снимок экрана (115).png",
+                "options": [
+                    "Я",
+                    "Ты"
+                ],
+                "correct": 1,
+                "stats": [
+                    3,
+                    2
+                ]
+            }
+        ],
+        "results": {}
+    },
+    "8018": {
+        "title": "Викториныч",
+        "current_question_index": 2,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": "img_790054_Снимок экрана (23).png",
+                "options": [
+                    "Я",
+                    "Ты+",
+                    "Мы"
+                ],
+                "correct": 1,
+                "stats": [
+                    1,
+                    1,
+                    0
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": "img_143427_Снимок экрана (99).png",
+                "options": [
+                    "Потомучто +",
+                    "Почемучто"
+                ],
+                "correct": 0,
+                "stats": [
+                    0,
+                    0
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Как?",
+                "image": "img_646778_Снимок экрана (133).png",
+                "options": [
+                    "Топором",
+                    "Пилой",
+                    "Руками",
+                    "Верный ответ"
+                ],
+                "correct": 3,
+                "stats": [
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            }
+        ],
+        "results": {}
+    },
+    "7886": {
+        "title": "Викториныч",
+        "current_question_index": 3,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": null,
+                "options": [
+                    "Я",
+                    "Ты+",
+                    "Мы"
+                ],
+                "correct": 1,
+                "stats": [
+                    0,
+                    0,
+                    0
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": null,
+                "options": [
+                    "Потомучто +",
+                    "Почемучто"
+                ],
+                "correct": 0,
+                "stats": [
+                    1,
+                    1
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Как?",
+                "image": null,
+                "options": [
+                    "Топором",
+                    "Пилой",
+                    "Руками",
+                    "Верный ответ"
+                ],
+                "correct": 3,
+                "stats": [
+                    1,
+                    0,
+                    0,
+                    1
+                ]
+            }
+        ],
+        "results": {
+            "Иван": 2
+        }
+    },
+    "1995": {
+        "title": "Викториныч",
+        "current_question_index": 3,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": "img_168089_Снимок экрана (23).png",
+                "options": [
+                    "Я",
+                    "Ты+",
+                    "Мы"
+                ],
+                "correct": 1,
+                "stats": [
+                    1,
+                    2,
+                    1
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": "img_396794_Снимок экрана (98).png",
+                "options": [
+                    "Потомучто +",
+                    "Почемучто"
+                ],
+                "correct": 0,
+                "stats": [
+                    3,
+                    1
+                ]
+            },
+            {
+                "id": 3,
+                "text": "Как?",
+                "image": "img_371755_Снимок экрана (133).png",
+                "options": [
+                    "Топором",
+                    "Пилой",
+                    "Руками",
+                    "Верный ответ"
+                ],
+                "correct": 3,
+                "stats": [
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            }
+        ],
+        "connected_players": [
+            "Иван золо",
+            "Никитосик",
+            "Гавнянский",
+            "Петигрю"
+        ],
+        "results": {
+            "Петигрю": 6
+        }
+    },
+    "9455": {
+        "title": "Викториныч",
+        "current_question_index": 2,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": "img_261227_Снимок экрана (48).png",
+                "options": [
+                    "Я",
+                    "Ты+",
+                    "Мы",
+                    "Вы"
+                ],
+                "correct": 0,
+                "stats": [
+                    13,
+                    6,
+                    2,
+                    0
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": "img_167501_Снимок экрана (20).png",
+                "options": [
+                    "Потомучто +",
+                    "Почемучто"
+                ],
+                "correct": 0,
+                "stats": [
+                    3,
+                    1
+                ]
+            }
+        ],
+        "connected_players": [
+            "Иван",
+            "Амогус",
+            "Победитель",
+            "Лох"
+        ],
+        "results": {
+            "Лох": 16
+        }
+    },
+    "7633": {
+        "title": "Викториныч",
+        "current_question_index": 1,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": null,
+                "options": [
+                    "Я",
+                    "Ты+"
+                ],
+                "correct": 1,
+                "stats": [
+                    1,
+                    1
+                ]
+            }
+        ],
+        "connected_players": [
+            "Амогус",
+            "Некит"
+        ],
+        "results": {
+            "Некит": 1,
+            "Амогус": 0
+        }
+    },
+    "5425": {
+        "title": "Викториныч",
+        "current_question_index": 2,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": "img_561980_Снимок экрана (23).png",
+                "options": [
+                    "Я",
+                    "Ты+"
+                ],
+                "correct": 1,
+                "stats": [
+                    1,
+                    1
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": "img_539553_Снимок экрана (49).png",
+                "options": [
+                    "Потомучто +",
+                    "Почемучто"
+                ],
+                "correct": 0,
+                "stats": [
+                    1,
+                    1
+                ]
+            }
+        ],
+        "connected_players": [
+            "Амогус",
+            "Лох",
+            "Победитель",
+            "Юнец",
+            "Иван Золо"
+        ],
+        "results": {
+            "Иван Золо": 1,
+            "Амогус": 1
+        }
+    },
+    "8506": {
+        "title": "Викториныч",
+        "current_question_index": 2,
+        "questions": [
+            {
+                "id": 1,
+                "text": "Кто убил абобу?",
+                "image": null,
+                "options": [
+                    "Я",
+                    "Ты+"
+                ],
+                "correct": 1,
+                "stats": [
+                    0,
+                    1
+                ]
+            },
+            {
+                "id": 2,
+                "text": "Зачем?",
+                "image": "img_592294_Снимок экрана (21).png",
+                "options": [
+                    "Потомучто +",
+                    "Почемучто",
+                    "А"
+                ],
+                "correct": 0,
+                "stats": [
+                    0,
+                    1,
+                    0
+                ]
+            }
+        ],
+        "connected_players": [
+            "ГудБой",
+            "Стремныч"
+        ],
+        "results": {
+            "Стремныч": 0,
+            "ГудБой": 1
+        }
+    }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вопрос №{{ q_num }} из {{ total_q }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        // Скрипт защищает от зависания на старых вопросах
+        setInterval(function() {
+            fetch('/api/status/{{ quiz_id }}?t=' + Date.now())
+                .then(response => response.json())
+                .then(data => {
+                    // Если учитель завершил викторину — отправляем на финал
+                    if (data.current_question_index >= data.total_questions) {
+                        window.location.href = '/q/{{ quiz_id }}/final';
+                    }
+                    // Если учитель на пульте уже включил СЛЕДУЮЩИЙ вопрос, принудительно выдергиваем ученика отсюда
+                    else if (data.current_question_index != {{ q_num - 1 }}) {
+                        window.location.href = '/q/{{ quiz_id }}/question';
+                    }
+                });
+        }, 1000);
+    </script>
+</head>
+<body>
+    <div class="main-wrapper">
+        <div class="quiz-top-banner">
+            {% if question.image %}
+                <img src="{{ url_for('static', filename='uploads/' + question.image) }}" alt="Иллюстрация к вопросу" class="banner-img">
+            {% else %}
+                <div class="banner-placeholder">🏞️ У этого вопроса нет изображения</div>
+            {% endif %}
+        </div>
+
+        <div class="block-orange" style="margin-top: 15px;">
+            <span class="question-number-badge">Вопрос №{{ q_num }} из {{ total_q }}</span>
+            <h2 class="quiz-question-title" style="margin-top: 10px; margin-bottom: 0;">{{ question.text }}</h2>
+        </div>
+
+        <div class="block-green" style="margin-top: 20px;">
+            <form method="POST">
+                <div class="student-answers-grid">
+                    {% for option in question.options %}
+                    <div class="answer-button-wrapper">
+                        <button type="submit" name="answer" value="{{ loop.index0 }}" class="btn-submit btn-answer-option">
+                            🔹 {{ option }}
+                        </button>
+                    </div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+
+        <div class="block-blue" style="margin-top: 20px; padding: 15px; text-align: center;">
+            <small style="color: #4a5568; font-size: 14px;">
+                Игрок: <strong>{{ session.get('username') }}</strong> | Очки: <strong>{{ session.get('score', 0) }}</strong>
+            </small>
+        </div>
+    </div>
+</body>
+</html>
