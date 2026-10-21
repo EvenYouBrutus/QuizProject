@@ -76,8 +76,8 @@ def create_quiz():
         db[quiz_id] = quiz_content
         save_data(db)
         
-        student_link = f"http://localhost:4252/q/{quiz_id}"
-        teacher_link = f"http://localhost:4252/t/{quiz_id}"
+        student_link = request.host_url.rstrip("/") + f"/q/{quiz_id}"
+        teacher_link = request.host_url.rstrip("/") + f"/t/{quiz_id}"
         
         return render_template("create.html", step="done", student_link=student_link, teacher_link=teacher_link)
         
